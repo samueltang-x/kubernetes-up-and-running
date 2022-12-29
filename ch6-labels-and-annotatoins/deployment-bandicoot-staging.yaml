@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bandicoot-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bandicoot
+  template:
+    metadata:
+      labels:
+        ver: "2"
+        app: bandicoot
+        env: staging
+    spec:
+      containers:
+      - name: bandicoot-staging
+        image: samueltang/kuard-demo:blue
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      imagePullSecrets:
+        - name: myregistrykey
